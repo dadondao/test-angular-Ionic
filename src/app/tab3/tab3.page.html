@@ -1,32 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Agenda
+      List of session
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Contact details </ion-card-title>
-  </ion-card-header>
-<!--content-->
-  <ion-card-content>
-  <ion-button> 
-    <ion-icon name="add"></ion-icon>
-  </ion-button>
-  <ion-modal>
+<ion-content >
+  <ion-item>
+      <ion-button color="primary" (click)="openModal()">New Session
+          <ion-icon slot="end" name="calendar"></ion-icon>
+     </ion-button>
+  </ion-item>
+    <ion-list>
+      <ion-item *ngFor="let Session of allSessionAdded ; let i = index" >
+        <ion-label >{{Session.sessionName}}</ion-label>
+        <ion-label >{{Session.date}}</ion-label>
+        <ion-button color="primary" (click)=" viewParticipant(i)">Participant <ion-icon name="people"></ion-icon> </ion-button>
+        <ion-button color="danger"  (click)="deleteSession(i)"><ion-icon name="trash-outline"></ion-icon> </ion-button>
+        <ion-button color="tertiary" (click)="updateSessionModal(Session)"><ion-icon name="clipboard-outline" ></ion-icon></ion-button>
+      </ion-item>
+      <ion-item *ngFor="let psession of pSession">
+      <ion-label>{{psession.userFirstName}}</ion-label>
+      <ion-label>{{psession.userLastName}}</ion-label>
+
+      </ion-item>
+      </ion-list>
+
   
-   </ion-modal>
-   <ion-list>
-    <ion-item *ngFor="let User of allParticipantsAdded">
-      <ion-label >{{User.userLastName}}</ion-label>
-      <ion-label >{{User.userFirstName}}</ion-label>
-      <ion-label >{{User.userEmail}}</ion-label>
-      <ion-label >{{User.userLastName}}</ion-label>
-    </ion-item>
-  </ion-list>
-  </ion-card-content>
-</ion-card>
+  <!--Formulaire-->
+  
 </ion-content>

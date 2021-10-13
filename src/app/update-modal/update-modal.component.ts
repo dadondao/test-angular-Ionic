@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Participant } from '../interfaces/participants.interface';
 import { ParticipantsService } from '../services/participants.service';
 
@@ -13,9 +13,19 @@ export class UpdateModalComponent implements OnInit {
   @Input() user : Participant;
 
 
-  constructor(private modalController: ModalController, private participantsService: ParticipantsService) { }
-  updateForm: FormGroup;
-  _allUsers = this.participantsService.allUser
+  constructor(private modalController: ModalController,
+     private participantsService: ParticipantsService, 
+     public toastCtrl: ToastController) { }
+      updateForm: FormGroup;
+      _allUsers = this.participantsService.allUser
+
+  async openToast(text: string) {  
+    const toast = await this.toastCtrl.create({  
+      message: text,   
+      duration: 4000  
+    });  
+    toast.present();  
+  }  
 
   ngOnInit() {
     this.updateForm = new FormGroup({
@@ -40,6 +50,7 @@ export class UpdateModalComponent implements OnInit {
      this.user.phoneNumber = this.updateForm.value.phoneNumber
      this.updateForm.reset();
      this.modalController.dismiss();
+     this.openToast("Updated 🟡 ")
   }
 
   dismissModal(){

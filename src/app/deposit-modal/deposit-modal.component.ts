@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ParticipantsService } from '../services/participants.service';
 import { Participant } from '../interfaces/participants.interface';
 
@@ -12,8 +12,14 @@ import { Participant } from '../interfaces/participants.interface';
 export class DepositModalComponent implements OnInit {
   form: FormGroup;
   allParticipantsAdded = [];
-  constructor(private modalController: ModalController, private participantsService:ParticipantsService) { }
-
+  constructor(private modalController: ModalController, private participantsService:ParticipantsService, public toastCtrl: ToastController) { }
+  async openToast(text: string) {  
+    const toast = await this.toastCtrl.create({  
+      message: text,   
+      duration: 4000  
+    });  
+    toast.present();  
+  } 
   ngOnInit() {
     this.form = new FormGroup({
       userFirstName : new FormControl( null , {
@@ -33,8 +39,9 @@ export class DepositModalComponent implements OnInit {
   add(){
       this.participantsService.addUser(this.form.value);
       this.form.reset();
-
-    
+      this.openToast("Added ✅ ")
+      this.modalController.dismiss();
+      
   }
   
   dismissModal(){

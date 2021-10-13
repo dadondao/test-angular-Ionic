@@ -3,7 +3,7 @@ import { Component , OnInit} from '@angular/core';
 import { FormGroup , FormControl , Validators } from '@angular/forms';
 import { ParticipantsService } from '../services/participants.service';
 import { Toast } from '@ionic-native/toast/ngx';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { DepositModalComponent } from '../deposit-modal/deposit-modal.component';
 import { Participant } from 'src/app/interfaces/participants.interface';
 
@@ -15,7 +15,17 @@ import { Participant } from 'src/app/interfaces/participants.interface';
 export class Tab2Page implements OnInit {
  form: FormGroup;
  allParticipantsAdded = [];
-  constructor(private participantsService : ParticipantsService, private modalController: ModalController ) {}
+ 
+  constructor(private participantsService : ParticipantsService, 
+    private modalController: ModalController ,
+     public toastCtrl : ToastController ) {}
+  async openToast(text: string) {  
+    const toast = await this.toastCtrl.create({  
+      message: text,   
+      duration: 4000  
+    });  
+    toast.present();  
+  }  
 
   ngOnInit(){
     
@@ -34,11 +44,11 @@ await modal.present();
     if(window.confirm('Do you want to delete user?')){
       (this.allParticipantsAdded).splice(user,1);
     }
-     
+    this.openToast("delete ❌")
+    
   }
 
- async update(user: Participant){
-   console.log(user)
+ async OpenUpdateModal(user: Participant){
    const updateModal = await this.modalController.create({
      component : UpdateModalComponent,
      componentProps: {

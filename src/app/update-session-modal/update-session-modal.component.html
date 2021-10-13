@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-title>New Session</ion-title>
+  <ion-buttons slot="end">
+  <ion-button color="danger" (click)="dismissModal()"><ion-icon name="close" ></ion-icon></ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="sessionForm">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nom</ion-label>
+            <ion-input type="text" formControlName="sessionName"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>MM DD YY</ion-label>
+            <ion-datetime displayFormat="MM DD YY" placeholder="Select Date" formControlName="date"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <ion-item *ngFor="let User of allParticipantsAdded let i = index">
+            <ion-label>{{User.userFirstName}}</ion-label>
+            <ion-checkbox slot="start" (ionChange)="addParticipant(i)"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+     </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="saveSession()" [disabled]="!this.sessionForm.valid">Modifier</ion-button>
+        </ion-col>
+      </ion-row>
+   </form>
+   </ion-content>
